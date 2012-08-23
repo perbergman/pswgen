@@ -1,0 +1,29 @@
+
+<p>
+	<a name="$index">$index</a><br />
+</p>
+<table border="0" cellpadding="5" cellspacing="0" width="$tablew">
+#set( $col = 1 )
+#foreach( $band in $list )
+#if( $col == 1)
+	<tr>
+#end
+#if ( $band.isEmpty  == true)
+		<td align="left" valign="top" width="$tdw">
+		</td>
+#else
+		<td align="left" valign="top" width="$tdw"><a
+			href="https://www.thepinkspiderweb.com/?page_id=$band.page"
+			title="$band.name" target="_blank">$band.name</a>
+		</td>
+#end
+#if( $col == $max)
+	</tr>
+#end
+#set( $col = $col + 1 )
+#if( $col > $max)
+#set( $col = 1 )
+#end
+#end
+</table>
+

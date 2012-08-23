@@ -1,0 +1,15 @@
+<html>
+  <head>
+    <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>tag:perbergman.com,2012-08-23:items</title>
+    <link href="master.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+
+    <p>
+#foreach( $index in $list )    
+<a href="#$index">$index </a>
+#end
+      <br/>
+    </p>
+    
