@@ -13,7 +13,9 @@ public class Driver {
 
 	private String bands;
 	private String venLocs;
-	
+	private int tablew = 600;
+	private int tdw = 200;
+
 	public Driver(String bands, String venLocs) {
 		this.bands = bands;
 		this.venLocs = venLocs;
@@ -22,7 +24,7 @@ public class Driver {
 	public void bands(String outp, int def) {
 		BandXLSReader rd = new BandXLSReader(bands, def);
 		rd.run();
-		ItemHTMLWriter wr = new ItemHTMLWriter(outp, rd.getLinks());
+		ItemHTMLWriter wr = new ItemHTMLWriter(outp, rd.getLinks(), tablew, tdw);
 		wr.run(3);
 	}
 
@@ -30,7 +32,7 @@ public class Driver {
 		VenueXLSReader rd = new VenueXLSReader(venLocs, def);
 		rd.run();
 		TreeMultimap<String, ItemLink> data = rd.getLinks();
-		ItemHTMLWriter wr = new ItemHTMLWriter(outp, data);
+		ItemHTMLWriter wr = new ItemHTMLWriter(outp, data, tablew, tdw);
 		wr.run(cols);
 		return data;
 	}
@@ -40,10 +42,8 @@ public class Driver {
 		LocationsXLSReader rd = new LocationsXLSReader(venLocs);
 		rd.run();
 		rd.addLinks(venues);
-		LocationsHTMLWriter wr = new LocationsHTMLWriter(rd, inp);
+		LocationsHTMLWriter wr = new LocationsHTMLWriter(rd, inp, tablew, tdw);
 		wr.run(cols);
 	}
-
-
 
 }

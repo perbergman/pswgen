@@ -14,17 +14,22 @@ import com.google.common.collect.Lists;
 
 public class LocationsHTMLWriter extends VeloAware {
 	private LocationsXLSReader reader = null;
+	private int tablew;
+	private int tdw;
 
-	public LocationsHTMLWriter(LocationsXLSReader reader, String fileName) {
+	public LocationsHTMLWriter(LocationsXLSReader reader, String fileName,
+			int tablew, int tdw) {
 		super(fileName);
 		this.reader = reader;
+		this.tablew = tablew;
+		this.tdw = tdw;
 	}
 
 	public void run(int columns) {
 		StringBuilder acc = new StringBuilder();
 		VelocityContext context = new VelocityContext();
-		context.put("tablew", 600);
-		context.put("tdw", 200);
+		context.put("tablew", tablew);
+		context.put("tdw", tdw);
 		context.put("max", columns);
 		acc.append(this.runVelo("locations_header.vm", context));
 

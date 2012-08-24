@@ -12,10 +12,15 @@ import com.google.common.collect.TreeMultimap;
 
 public class ItemHTMLWriter extends VeloAware {
 	private TreeMultimap<String, ItemLink> data = null;
+	private int tablew;
+	private int tdw;
 
-	public ItemHTMLWriter(String fileName, TreeMultimap<String, ItemLink> data) {
+	public ItemHTMLWriter(String fileName, TreeMultimap<String, ItemLink> data,
+			int tablew, int tdw) {
 		super(fileName);
 		this.data = data;
+		this.tablew = tablew;
+		this.tdw = tdw;
 	}
 
 	public void createTOC(List<String> letters, StringBuilder acc)
@@ -39,8 +44,9 @@ public class ItemHTMLWriter extends VeloAware {
 		context.put("list", bands);
 		context.put("index", index);
 		context.put("max", max);
-		context.put("tablew", 600);
-		context.put("tdw", 200);
+
+		context.put("tablew", tablew);
+		context.put("tdw", tdw);
 
 		acc.append(this.runVelo("items_contents.vm", context));
 	}
