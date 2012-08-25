@@ -21,28 +21,31 @@ public class Driver {
 		this.venLocs = venLocs;
 	}
 
-	public void bands(String outp, int def) {
+	public void bands(String outp, int def, String url) {
 		BandXLSReader rd = new BandXLSReader(bands, def);
 		rd.run();
-		ItemHTMLWriter wr = new ItemHTMLWriter(outp, rd.getLinks(), tablew, tdw);
+		ItemHTMLWriter wr = new ItemHTMLWriter(outp, rd.getLinks(), tablew,
+				tdw, url);
 		wr.run(3);
 	}
 
-	public TreeMultimap<String, ItemLink> venues(String outp, int def, int cols) {
+	public TreeMultimap<String, ItemLink> venues(String outp, int def,
+			int cols, String url) {
 		VenueXLSReader rd = new VenueXLSReader(venLocs, def);
 		rd.run();
 		TreeMultimap<String, ItemLink> data = rd.getLinks();
-		ItemHTMLWriter wr = new ItemHTMLWriter(outp, data, tablew, tdw);
+		ItemHTMLWriter wr = new ItemHTMLWriter(outp, data, tablew, tdw, url);
 		wr.run(cols);
 		return data;
 	}
 
 	public void locations(TreeMultimap<String, ItemLink> venues, String inp,
-			int cols) {
+			int cols, String url, String mapUrl) {
 		LocationsXLSReader rd = new LocationsXLSReader(venLocs);
 		rd.run();
 		rd.addLinks(venues);
-		LocationsHTMLWriter wr = new LocationsHTMLWriter(rd, inp, tablew, tdw);
+		LocationsHTMLWriter wr = new LocationsHTMLWriter(rd, inp, tablew, tdw,
+				url, mapUrl);
 		wr.run(cols);
 	}
 

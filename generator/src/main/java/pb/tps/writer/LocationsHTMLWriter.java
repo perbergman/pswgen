@@ -16,13 +16,17 @@ public class LocationsHTMLWriter extends VeloAware {
 	private LocationsXLSReader reader = null;
 	private int tablew;
 	private int tdw;
+	private String url;
+	private String mapUrl;
 
 	public LocationsHTMLWriter(LocationsXLSReader reader, String fileName,
-			int tablew, int tdw) {
+			int tablew, int tdw, String url, String mapUrl) {
 		super(fileName);
 		this.reader = reader;
 		this.tablew = tablew;
 		this.tdw = tdw;
+		this.url = url;
+		this.mapUrl = mapUrl;
 	}
 
 	public void run(int columns) {
@@ -31,6 +35,9 @@ public class LocationsHTMLWriter extends VeloAware {
 		context.put("tablew", tablew);
 		context.put("tdw", tdw);
 		context.put("max", columns);
+		context.put("mapurl", mapUrl);
+		context.put("url", url);
+
 		acc.append(this.runVelo("locations_header.vm", context));
 
 		for (Group group : reader.getGroups()) {

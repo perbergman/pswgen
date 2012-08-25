@@ -14,13 +14,15 @@ public class ItemHTMLWriter extends VeloAware {
 	private TreeMultimap<String, ItemLink> data = null;
 	private int tablew;
 	private int tdw;
+	private String url;
 
 	public ItemHTMLWriter(String fileName, TreeMultimap<String, ItemLink> data,
-			int tablew, int tdw) {
+			int tablew, int tdw, String url) {
 		super(fileName);
 		this.data = data;
 		this.tablew = tablew;
 		this.tdw = tdw;
+		this.url = url;
 	}
 
 	public void createTOC(List<String> letters, StringBuilder acc)
@@ -47,6 +49,8 @@ public class ItemHTMLWriter extends VeloAware {
 
 		context.put("tablew", tablew);
 		context.put("tdw", tdw);
+
+		context.put("url", url);
 
 		acc.append(this.runVelo("items_contents.vm", context));
 	}
