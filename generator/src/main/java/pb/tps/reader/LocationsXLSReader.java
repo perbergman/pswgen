@@ -50,8 +50,8 @@ public class LocationsXLSReader extends Links<ItemLink> {
 				new Ordering<ItemLink>() {
 					@Override
 					public int compare(ItemLink left, ItemLink right) {
-						String n1 = left.getName();
-						String n2 = right.getName();
+						String n1 = left.getSort();
+						String n2 = right.getSort();
 						return n1.compareTo(n2);
 					}
 				});

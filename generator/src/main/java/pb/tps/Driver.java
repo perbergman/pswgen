@@ -21,12 +21,14 @@ public class Driver {
 		this.venLocs = venLocs;
 	}
 
-	public void bands(String outp, int def, String url) {
+	public void bands(String outp, int def, String url, int cols) {
 		BandXLSReader rd = new BandXLSReader(bands, def);
 		rd.run();
+		System.out.println(rd.getLinks());
+
 		ItemHTMLWriter wr = new ItemHTMLWriter(outp, rd.getLinks(), tablew,
 				tdw, url);
-		wr.run(3);
+		wr.run(cols);
 	}
 
 	public TreeMultimap<String, ItemLink> venues(String outp, int def,

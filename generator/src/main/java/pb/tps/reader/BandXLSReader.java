@@ -8,11 +8,17 @@ import pb.tps.model.Book;
 import pb.tps.model.ItemLink;
 import pb.tps.model.Links;
 
+import com.google.common.base.Strings;
+
 public class BandXLSReader extends Links<ItemLink> implements Runnable {
 
 	private boolean isAll = true;
 	private int defPageId = 0;
 	private Book book;
+
+	private static final int META_COL = 0;
+	private static final int NAME_COL = 1;
+	private static final int PAGE_COL = 2;
 
 	public BandXLSReader(String fileName, int defPageId) {
 		this.book = new Book(fileName);
@@ -35,16 +41,25 @@ public class BandXLSReader extends Links<ItemLink> implements Runnable {
 				continue;
 			}
 
-			if (row.getCell(1) == null) {
+			if (row.getCell(NAME_COL) == null) {
 				break;
 			}
 
+			String sort = "";
+			if (row.getCell(META_COL) != null) {
+				sort = row.getCell(META_COL).toString();
+				int dot = sort.indexOf('.');
+				if (dot != -1) {
+					sort = sort.substring(0, sort.indexOf('.'));
+				}
+			}
+
 			int pageId = 0;
-			String value = row.getCell(1).toString();
+			String value = row.getCell(PAGE_COL).toString();
 			if (!StringUtils.isBlank(value)) {
 				Double page = -1d;
 				try {
-					page = row.getCell(1).getNumericCellValue();
+					page = row.getCell(PAGE_COL).getNumericCellValue();
 				} catch (Exception e) {
 					System.out.println("ROW " + rowIndex + " v " + value);
 					e.printStackTrace();
@@ -52,19 +67,21 @@ public class BandXLSReader extends Links<ItemLink> implements Runnable {
 				pageId = page.intValue();
 			}
 
-			String band = row.getCell(0).getStringCellValue();
-			if (isAll || pageId > 0) {
-				if (pageId == 0) {
-					pageId = defPageId;
+			String band = row.getCell(NAME_COL).getStringCellValue();
+			boolean skip = Strings.isNullOrEmpty(band);
+			if (!skip) {
+				if (isAll || pageId > 0) {
+					if (pageId == 0) {
+						pageId = defPageId;
+					}
+					this.add(new ItemLink(sort, band, pageId));
+				} else {
+					ItemLink bl = new ItemLink(sort, band, 0);
+					bl.setIsEmpty(true);
+					this.add(bl);
 				}
-				this.add(new ItemLink(band, pageId));
-			} else {
-				ItemLink bl = new ItemLink(band, 0);
-				bl.setIsEmpty(true);
-				this.add(bl);
 			}
 			rowIndex++;
 		}
 	}
-
 }

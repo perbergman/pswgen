@@ -11,6 +11,13 @@ import com.google.common.collect.TreeMultimap;
 
 public class VenueXLSReader extends Links<ItemLink> {
 
+	private static final int META_COL = 0;
+	private static final int NAME_COL = 1;
+	private static final int PAGE_COL = 2;
+	private static final int LOC_COL = 3;
+	// 4 is main location not used here
+	private static final int URL_COL = 5;
+
 	private boolean isAll = true;
 	private int defPageId = 0;
 	private Book book;
@@ -36,30 +43,35 @@ public class VenueXLSReader extends Links<ItemLink> {
 				continue;
 			}
 
-			String venue = row.getCell(0).toString();
+			String venue = row.getCell(NAME_COL).toString();
 			int pageId = 0;
 
-			if (row.getCell(1) != null) {
-				Double page = row.getCell(1).getNumericCellValue();
+			if (row.getCell(PAGE_COL) != null) {
+				Double page = row.getCell(PAGE_COL).getNumericCellValue();
 				pageId = page.intValue();
 			}
 
-			String location = row.getCell(2).getStringCellValue();
+			String location = row.getCell(LOC_COL).getStringCellValue();
 			String url = "";
-			if (row.getCell(4) != null) {
-				url = row.getCell(4).getStringCellValue();
+			if (row.getCell(URL_COL) != null) {
+				url = row.getCell(URL_COL).getStringCellValue();
 			}
 
 			// System.out.println(rowIndex + " venue: " + venue + ", page: "
 			// + pageId + ", location: " + location + ", url: " + url);
 
+			String sort = "";
+			if (row.getCell(META_COL) != null) {
+				sort = row.getCell(META_COL).toString().trim();
+			}
+
 			if (isAll || pageId > 0) {
 				if (pageId == 0) {
 					pageId = defPageId;
 				}
-				this.add(new ItemLink(venue, location, pageId, url));
+				this.add(new ItemLink(sort, venue, location, pageId, url));
 			} else {
-				ItemLink vl = new ItemLink(venue, 0);
+				ItemLink vl = new ItemLink(sort, venue, 0);
 				vl.setIsEmpty(true);
 				this.add(vl);
 			}

@@ -1,6 +1,9 @@
 package pb.tps.writer;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.SortedSet;
 
 import org.apache.velocity.VelocityContext;
 
@@ -8,6 +11,7 @@ import pb.tps.model.ItemLink;
 import pb.tps.model.VeloAware;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 import com.google.common.collect.TreeMultimap;
 
 public class ItemHTMLWriter extends VeloAware {
@@ -23,6 +27,28 @@ public class ItemHTMLWriter extends VeloAware {
 		this.tablew = tablew;
 		this.tdw = tdw;
 		this.url = url;
+
+		TreeMultimap<String, ItemLink> nambas = TreeMultimap.create(
+				Ordering.natural(), new Ordering<ItemLink>() {
+					@Override
+					public int compare(ItemLink left, ItemLink right) {
+						String n1 = left.getSort();
+						String n2 = right.getSort();
+						return n1.compareTo(n2);
+					}
+				});
+
+		// 0-9 bands shall be put under a new header "0-9"
+		for (int c = 0; c < 10; c++) {
+			String ch = Integer.toString(c);
+			SortedSet<ItemLink> values = data.get(ch);
+			if (values.size() > 0) {
+				SortedSet<ItemLink> killed = data.removeAll(ch);
+				nambas.putAll("0-9", killed);
+			}
+		}
+
+		data.putAll(nambas);
 	}
 
 	public void createTOC(List<String> letters, StringBuilder acc)
@@ -63,6 +89,24 @@ public class ItemHTMLWriter extends VeloAware {
 			createTOC(letters, acc);
 			for (String letter : letters) {
 				List<ItemLink> bands = Lists.newArrayList(data.get(letter));
+
+				Collections.sort(bands, new Comparator<ItemLink>() {
+
+					@Override
+					public int compare(ItemLink left, ItemLink right) {
+						String n1 = left.getSort().toLowerCase();
+						String n2 = right.getSort().toLowerCase();
+						if (!left.isLongSort()) {
+							n1 = left.getName().toLowerCase();
+						}
+						if (!right.isLongSort()) {
+							n2 = right.getName().toLowerCase();
+						}
+
+						return n1.compareTo(n2);
+					}
+				});
+
 				createContents(letter, bands, columns, acc);
 			}
 			acc.append("</body>\n</html>\n");
@@ -77,5 +121,4 @@ public class ItemHTMLWriter extends VeloAware {
 			e.printStackTrace();
 		}
 	}
-
 }
