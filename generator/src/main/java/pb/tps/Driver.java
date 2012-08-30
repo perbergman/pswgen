@@ -24,7 +24,6 @@ public class Driver {
 	public void bands(String outp, int def, String url, int cols) {
 		BandXLSReader rd = new BandXLSReader(bands, def);
 		rd.run();
-		System.out.println(rd.getLinks());
 
 		ItemHTMLWriter wr = new ItemHTMLWriter(outp, rd.getLinks(), tablew,
 				tdw, url);

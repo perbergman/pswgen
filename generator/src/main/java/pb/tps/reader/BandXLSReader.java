@@ -16,7 +16,7 @@ public class BandXLSReader extends Links<ItemLink> implements Runnable {
 	private int defPageId = 0;
 	private Book book;
 
-	private static final int META_COL = 0;
+	private static final int ALIAS_COL = 0;
 	private static final int NAME_COL = 1;
 	private static final int PAGE_COL = 2;
 
@@ -46,8 +46,8 @@ public class BandXLSReader extends Links<ItemLink> implements Runnable {
 			}
 
 			String sort = "";
-			if (row.getCell(META_COL) != null) {
-				sort = row.getCell(META_COL).toString();
+			if (row.getCell(ALIAS_COL) != null) {
+				sort = row.getCell(ALIAS_COL).toString();
 				int dot = sort.indexOf('.');
 				if (dot != -1) {
 					sort = sort.substring(0, sort.indexOf('.'));

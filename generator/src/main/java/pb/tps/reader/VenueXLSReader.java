@@ -11,7 +11,7 @@ import com.google.common.collect.TreeMultimap;
 
 public class VenueXLSReader extends Links<ItemLink> {
 
-	private static final int META_COL = 0;
+	private static final int ALIAS_COL = 0;
 	private static final int NAME_COL = 1;
 	private static final int PAGE_COL = 2;
 	private static final int LOC_COL = 3;
@@ -61,8 +61,8 @@ public class VenueXLSReader extends Links<ItemLink> {
 			// + pageId + ", location: " + location + ", url: " + url);
 
 			String sort = "";
-			if (row.getCell(META_COL) != null) {
-				sort = row.getCell(META_COL).toString().trim();
+			if (row.getCell(ALIAS_COL) != null) {
+				sort = row.getCell(ALIAS_COL).toString().trim();
 			}
 
 			if (isAll || pageId > 0) {
