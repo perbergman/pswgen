@@ -14,7 +14,7 @@ public class DriverTest {
 
 	// private static final String BANDS =
 	// "/Users/perbergman/Google Drive/PSW/Band_Artist_List_011.xlsx";
-	private static final String BANDS = "Band_Artist_List_012.xlsx";
+	private static final String BANDS = "Band_Artist_List_015.xlsx";
 
 	private static final String url = "https://www.thepinkspiderweb.com";
 	private static final String mapUrl = "https://www.thepinkspiderweb.com/wp-content/uploads/2012/06/tokyo_static_map.png";

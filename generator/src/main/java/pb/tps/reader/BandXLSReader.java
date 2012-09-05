@@ -67,6 +67,7 @@ public class BandXLSReader extends Links<ItemLink> implements Runnable {
 				pageId = page.intValue();
 			}
 
+			System.out.println(rowIndex + " " + row.getCell(NAME_COL));
 			String band = row.getCell(NAME_COL).getStringCellValue();
 			boolean skip = Strings.isNullOrEmpty(band);
 			if (!skip) {

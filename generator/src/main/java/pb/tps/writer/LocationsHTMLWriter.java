@@ -40,6 +40,7 @@ public class LocationsHTMLWriter extends VeloAware {
 
 		acc.append(this.runVelo("locations_header.vm", context));
 
+		int gid = 0;
 		for (Group group : reader.getGroups()) {
 			SortedSet<ItemLink> srt = reader.getForSuper(group.getSupers());
 			context.put("group", group.getHeader());
@@ -58,6 +59,7 @@ public class LocationsHTMLWriter extends VeloAware {
 			}
 
 			context.put("subs", vls);
+			context.put("gid", gid++);
 			acc.append(this.runVelo("locations_contents.vm", context));
 		}
 
